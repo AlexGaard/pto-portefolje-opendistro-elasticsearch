@@ -8,13 +8,13 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
     component: {{ template "fullname" . }}
-    role: ingest
+    role: data
     team: {{ .Values.odfe.env.TEAM  }}
 spec:
   type: {{ .Values.odfe.serviceType }}
   selector:
     component: {{ template "fullname" . }}
-    role: ingest
+    role: data
     team: {{ .Values.odfe.env.TEAM  }}
   ports:
   - name: http

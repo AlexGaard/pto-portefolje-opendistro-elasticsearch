@@ -325,19 +325,6 @@ data:
   stateful:
     size: 4Gi
 
-ingest:
-  replicas: 3
-  antiAffinity: "soft"
-  heapMemory: 256m
-  resources:
-    requests:
-      memory: 256Mi
-  env:
-    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
-    node.master: false
-    node.data: false
-    node.ingest: true
-
 kibana:
   enabled: true
   password: "changeme"
