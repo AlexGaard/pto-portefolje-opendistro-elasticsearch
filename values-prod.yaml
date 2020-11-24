@@ -4,8 +4,8 @@ odfe:
     http:
       enabled: true
   env:
-    TEAM: "teamname"
-    cluster.name: "milkyway"
+    TEAM: "pto"
+    cluster.name: "pto-portefolje"
     http.compression: "true"
     network.host: "0.0.0.0"
     cluster.routing.allocation.disk.threshold_enabled: "false"
@@ -119,10 +119,10 @@ odfe:
           reserved: false
           index_permissions:
             - index_patterns:
-              - "*"
+                - "*"
               allowed_actions:
-              - "cluster_monitor"
-              - "indices_monitor"
+                - "cluster_monitor"
+                - "indices_monitor"
           cluster_permissions:
             - "cluster:admin/repository/get"
             - "cluster_monitor"
@@ -134,44 +134,44 @@ odfe:
         all_access:
           reserved: false
           backend_roles:
-          - "admin"
+            - "admin"
           description: "Maps admin to all_access"
         own_index:
           reserved: false
           users:
-          - "*"
+            - "*"
           description: "Allow full access to an index named like the username"
         logstash:
           reserved: false
           backend_roles:
-          - "logstash"
+            - "logstash"
         kibana_user:
           reserved: false
           backend_roles:
-          - "kibanauser"
+            - "kibanauser"
           description: "Maps kibanauser to kibana_user"
         readall:
           reserved: false
           backend_roles:
-          - "readall"
+            - "readall"
         manage_snapshots:
           reserved: false
           backend_roles:
-          - "snapshotrestore"
+            - "snapshotrestore"
         kibana_server:
           reserved: true
           users:
-          - "kibanaserver"
+            - "kibanaserver"
         monitor:
           reserved: false
           users:
-          - "monitor"
+            - "monitor"
           backend_roles:
-          - "monitor"
+            - "monitor"
       config_yml:
         _meta:
-            type: "config"
-            config_version: 2
+          type: "config"
+          config_version: 2
         config:
           dynamic:
             http:
@@ -259,7 +259,7 @@ odfe:
                     enable_ssl_client_auth: false
                     verify_hostnames: true
                     hosts:
-                    - localhost:8389
+                      - localhost:8389
                     bind_dn: null
                     password: null
                     userbase: 'ou=people,dc=example,dc=com'
@@ -278,7 +278,7 @@ odfe:
                     enable_ssl_client_auth: false
                     verify_hostnames: true
                     hosts:
-                    - localhost:8389
+                      - localhost:8389
                     bind_dn: null
                     password: null
                     rolebase: 'ou=groups,dc=example,dc=com'
@@ -310,28 +310,15 @@ master:
   stateful:
     size: 1Gi
 
-ingest:
-  replicas: 2
-  antiAffinity: "soft"
-  heapMemory: 256m
-  resources:
-    requests:
-      memory: 256Mi
-  env:
-    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
-    node.master: false
-    node.data: false
-    node.ingest: true
-
 data:
   replicas: 3
   antiAffinity: "soft"
-  heapMemory: 256m
+  heapMemory: 1024m
   resources:
     requests:
-      memory: 256Mi
+      memory: 1Gi
   env:
-    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+    ES_JAVA_OPTS: "-Xms256m -Xmx1024m"
     node.master: false
     node.data: true
     node.ingest: false
@@ -353,4 +340,4 @@ exporter:
   password: "changeme"
 
 ingress:
-  domain: localhost
+  domain: dev.adeo.no
