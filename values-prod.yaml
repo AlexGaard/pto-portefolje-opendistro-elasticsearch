@@ -11,7 +11,7 @@ odfe:
     cluster.routing.allocation.disk.threshold_enabled: "false"
   image:
     repository: amazon/opendistro-for-elasticsearch
-    tag: 1.2.0
+    tag: 1.11.0
     pullPolicy: Always
   stateful:
     class: "rook-ceph-block"
@@ -300,8 +300,10 @@ master:
   replicas: 3
   antiAffinity: "soft"
   resources:
+    limits:
+      memory: 1Gi
     requests:
-      memory: 256Mi
+      memory: 512Mi
   env:
     ES_JAVA_OPTS: "-Xms256m -Xmx256m"
     node.master: true
@@ -315,10 +317,14 @@ data:
   antiAffinity: "soft"
   heapMemory: 1024m
   resources:
+    limits:
+      cpu: 2
+      memory: 2560Mi
     requests:
-      memory: 1Gi
+      cpu: 1
+      memory: 2Gi
   env:
-    ES_JAVA_OPTS: "-Xms256m -Xmx1024m"
+    ES_JAVA_OPTS: "-Xms1792m -Xmx1792m"
     node.master: false
     node.data: true
     node.ingest: false
@@ -332,12 +338,14 @@ kibana:
   resources:
     limits:
       cpu: 1000m
+      memory: 1Gi
     requests:
       cpu: 100m
+      memory: 500Mi
 
 exporter:
   enabled: true
   password: "changeme"
 
 ingress:
-  domain: dev.adeo.no
+  domain: nais.adeo.no
