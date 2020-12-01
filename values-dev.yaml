@@ -338,14 +338,15 @@ kibana:
   resources:
     limits:
       cpu: 1000m
-      memory: 1Gi
+      memory: 2Gi
     requests:
       cpu: 100m
-      memory: 500Mi
+      memory: 512Mi
 
 exporter:
   enabled: true
   password: "changeme"
 
-ingress:
-  domain: dev.adeo.no
+# Ingresses does not work when using SSL for elasticsearch/kibana because SSL is terminated before reaching the pod
+#ingress:
+#  domain: dev.adeo.no

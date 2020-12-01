@@ -16,8 +16,34 @@ List volume claims
 `kubectl get pvc -n pto`
 
 Delete all the claims that are listed which is related to the cluster
-`k delete pvc storage-pto-portefolje-opendistro-elasticsearch-data-{0,1,2...}`
-`k delete pvc storage-pto-portefolje-opendistro-elasticsearch-master-{0,1,2...}`
+`kubectl delete pvc storage-pto-portefolje-opendistro-elasticsearch-data-{0,1,2...}`
+`kubectl delete pvc storage-pto-portefolje-opendistro-elasticsearch-master-{0,1,2...}`
+
+## Setup new cluster
+ 
+### Create user
+```
+curl --request PUT \
+  --url https://localhost:9200/_opendistro/_security/api/internalusers/veilarb \
+  --header 'Authorization: Basic <base64Creds>' \
+  --header 'Content-Type: application/json'
+  --data '{
+	"password": "<password>",
+	"backend_roles": ["admin"]
+}'
+```
+
+### Create initial index
+curl --request PUT \
+  --url https://localhost:9200/brukerindeks-initial \
+  --header 'Authorization: Basic <base64Creds>' \
+  --header 'Content-Type: application/json' \
+  --data '<JSON settings goes here>'
+  
+### Create alias 
+curl --request PUT \
+  --url https://localhost:9200/brukerindeks-initial/_alias/brukerindeks \
+  --header 'Authorization: Basic <base64Creds>' \
 
 ## Access Kibana
 1. `kubectl port-forward -n pto svc/pto-portefolje-opendistro-elasticsearch-kibana 5601`
